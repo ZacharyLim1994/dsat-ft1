@@ -5,7 +5,6 @@ from groq import Groq
 
 import os
 # os.environ['GROQ_API_KEY'] = os.getenv("groq")
-# os.environ['GROQ_API_KEY'] = "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"
 
 app = Flask(__name__)
 
