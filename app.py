@@ -1,3 +1,4 @@
+# pip install python-dotenv
 
 from flask import Flask, render_template, request
 import joblib
