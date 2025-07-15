@@ -4,8 +4,14 @@ from flask import Flask, render_template, request
 import joblib
 from groq import Groq
 
+from dotenv import load_dotenv
+load_dotenv()
 import os
-# os.environ['GROQ_API_KEY'] = os.getenv("groq")
+
+#.env is to store my API_key
+#.gitignore is used to specifies intentionally untracked files that Git should ignore. 
+
+os.environ['GROQ_API_KEY'] = os.getenv("GROQ_API_KEY")
 
 app = Flask(__name__)
 
