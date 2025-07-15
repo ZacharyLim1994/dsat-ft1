@@ -5,7 +5,7 @@ from groq import Groq
 
 import os
 # os.environ['GROQ_API_KEY'] = os.getenv("groq")
-
+# os.environ['GROQ_API_KEY'] = "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"
 
 app = Flask(__name__)
 
@@ -56,7 +56,7 @@ def deepseek_reply():
             }
         ]
     )
-    return(render_template("deepseek_reply.html",r=completion.choices[0].message.content))
+    return(render_template("deepseek_reply.html",r=completion_ds.choices[0].message.content))
 
 @app.route("/dbs",methods=["GET","POST"])
 def dbs():
