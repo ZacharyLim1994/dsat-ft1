@@ -12,8 +12,8 @@ import os
 #.env is to store my API_key
 #.gitignore is used to specifies intentionally untracked files that Git should ignore. 
 
-'GROQ_API_KEY' = os.getenv("GROQ_API_KEY")
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+# os.environ['GROQ_API_KEY'] = os.getenv("GROQ_API_KEY")
+# os.environ['TELEGRAM_BOT_TOKEN'] = os.getenv("TELEGRAM_BOT_TOKEN")
 
 app = Flask(__name__)
 
@@ -87,7 +87,7 @@ def prediction():
 @app.route("/telegram",methods=["GET","POST"])
 def telegram():
 
-    domain_url = "https://dbss-3ck7.onrender.com"
+    domain_url = "https://dbss-3ck7.onrender.com/telegram"
 
     # The following line is used to delete the existing webhook URL for the Telegram bot
     delete_webhook_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/deleteWebhook"
@@ -95,6 +95,8 @@ def telegram():
 
     # Set the webhook URL for the Telegram bot
     set_webhook_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/setWebhook?url={domain_url}/webhook"
+    
+
     webhook_response = requests.post(set_webhook_url, json={"url": domain_url, "drop_pending_updates": True})
 
     if webhook_response.status_code == 200:
