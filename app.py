@@ -14,6 +14,7 @@ import os
 
 # os.environ['GROQ_API_KEY'] = os.getenv("GROQ_API_KEY")
 # os.environ['TELEGRAM_BOT_TOKEN'] = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 app = Flask(__name__)
 
