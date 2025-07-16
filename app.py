@@ -3,6 +3,7 @@
 from flask import Flask, render_template, request
 import joblib
 from groq import Groq
+import requests
 
 from dotenv import load_dotenv
 load_dotenv()
