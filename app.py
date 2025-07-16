@@ -33,6 +33,11 @@ def llama():
 def deepseek():
     return(render_template("deepseek.html"))
 
+@app.route("/telegram",methods=["GET","POST"])
+def telegram():
+    return(render_template("telegram.html"))
+
+
 @app.route("/llama_reply",methods=["GET","POST"])
 def llama_reply():
     q = request.form.get("q")
@@ -48,6 +53,23 @@ def llama_reply():
         ]
     )
     return(render_template("llama_reply.html",r=completion.choices[0].message.content))
+
+@app.route("/telegram_reply",methods=["GET","POST"])
+def telegram_reply():
+    q = request.form.get("q")
+    # load model
+    client = Groq()
+    completion_tele = client.chat.completions.create(
+        model="llama-3.1-8b-instant",
+        messages=[
+            {
+                "role": "user",
+                "content": text
+            }
+        ]
+    )
+    return(render_template("telegram_reply.html",r=completion_tele.choices[0].message.content))
+
 
 @app.route("/deepseek_reply",methods=["GET","POST"])
 def deepseek_reply():
