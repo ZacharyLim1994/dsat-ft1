@@ -12,6 +12,7 @@ import os
 #.gitignore is used to specifies intentionally untracked files that Git should ignore. 
 
 os.environ['GROQ_API_KEY'] = os.getenv("GROQ_API_KEY")
+os.environ['TELEGRAM_BOT_TOKEN'] = os.getenv("TELEGRAM_BOT_TOKEN")
 
 app = Flask(__name__)
 
@@ -33,9 +34,6 @@ def llama():
 def deepseek():
     return(render_template("deepseek.html"))
 
-@app.route("/telegram",methods=["GET","POST"])
-def telegram():
-    return(render_template("telegram.html"))
 
 
 @app.route("/llama_reply",methods=["GET","POST"])
@@ -54,21 +52,30 @@ def llama_reply():
     )
     return(render_template("llama_reply.html",r=completion.choices[0].message.content))
 
-@app.route("/telegram_reply",methods=["GET","POST"])
-def telegram_reply():
-    q = request.form.get("q")
-    # load model
-    client = Groq()
-    completion_tele = client.chat.completions.create(
-        model="llama-3.1-8b-instant",
-        messages=[
-            {
-                "role": "user",
-                "content": text
-            }
-        ]
-    )
-    return(render_template("telegram_reply.html",r=completion_tele.choices[0].message.content))
+@app.route("/telegram",methods=["GET","POST"])
+def telegram():
+
+    domain_url = "https://dbss-3ck7.onrender.com"
+
+    # The following line is used to delete the existing webhook URL for the Telegram bot
+    delete_webhook_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/deleteWebhook"
+    requests.post(delete_webhook_url, json={"url": domain_url, "drop_pending_updates": True})
+
+    @app.route("/telegram",methods=["GET","POST"])
+
+    # Set the webhook URL for the Telegram bot
+    set_webhook_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/setWebhook?url={domain_url}/webhook"
+    webhook_response = requests.post(set_webhook_url, json={"url": domain_url, "drop_pending_updates": True})
+
+    if webhook_response.status_code == 200:
+        # set status message
+        status = "The telegram bot is running. Please check with the telegram bot. @DSAI_ZL_FT1_bot"
+    else:
+        status = "Failed to start the telegram bot. Please check the logs."
+    
+    return(render_template("telegram.html", status=status))
+  
+
 
 
 @app.route("/deepseek_reply",methods=["GET","POST"])
